@@ -11,6 +11,7 @@ class WechatController extends Controller {
     const { ctx, service, app } = this;
     const cookies = this.ctx.cookies,
       openid = cookies.get('openid', { encrypt: true });
+    console.log(ctx.request);
     if (openid) {
       const checked = await service.wechat.checkAuthAccessToken(openid);
       if (checked) {
