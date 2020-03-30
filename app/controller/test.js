@@ -12,9 +12,9 @@ class TestController extends Controller {
         this.ctx.body = this.ctx.request.URL;
     }
 
-    test() {
-        console.log(this.ctx.params);
-        this.ctx.redirect('/public/index.html#wyf');
+    async test() {
+        // this.ctx.redirect('/public/index.html#wyf');
+        this.ctx.body = await this.service.orderForm.find();
     }
 }
 
