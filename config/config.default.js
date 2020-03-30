@@ -47,8 +47,8 @@ module.exports = appInfo => {
     // mongodb配置
     config.mongoose = {
         client: {
-           url: 'mongodb://127.0.0.1/xz',
-          options: {},
+            url: 'mongodb://127.0.0.1/xz',
+            options: {},
         },
     };
 
