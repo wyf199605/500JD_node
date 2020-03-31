@@ -3,6 +3,9 @@
   "rules": {
     "indent": ["error", 4],
     "object-curly-spacing": ["warn", "never"],
-    "array-bracket-spacing": ["warn", "never"]
+    "array-bracket-spacing": ["warn", "never"],
+    "no-trailing-spaces": ["warn", {
+      "skipBlankLines": true
+    }]
   }
 }

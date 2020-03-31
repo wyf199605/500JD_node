@@ -3,9 +3,20 @@
 const Service = require('egg').Service;
 
 class OrderFormService extends Service {
-    find() {
-        console.log(this.ctx.model);
-        return this.ctx.model.Test.findOne({username: 'wyf'}, 'username');
+    async getList(page, pageSize) {
+        const OrderForm = this.ctx.model.OrderForm;
+        const data = await OrderForm.find({})
+            .select('_id title codeType budget deadline status details')
+            .sort('-status time')
+            .skip(page * pageSize)
+            .limit(pageSize);
+
+        return data;
+    }
+
+    findById(id) {
+        const OrderForm = this.ctx.model.OrderForm;
+        return OrderForm.findOne({_id: id});
     }
 }
 
