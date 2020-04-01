@@ -3,15 +3,26 @@
 const Service = require('egg').Service;
 
 class OrderFormService extends Service {
-    async getOrderList(page, pageSize) {
+    /**
+     * 查询订单列表
+     * @param {number} page 当前第几页
+     * @param {number} pageSize 一个几张
+     * @param {Object} queryCond 查询条件
+     * @param {Object | string} sort 排序
+     * @return {Promise<*>}
+     */
+    async getOrderList(page, pageSize, queryCond = {}, sort = '-status time') {
         const OrderForm = this.ctx.model.OrderForm;
-        const data = await OrderForm.find({})
+        return OrderForm.find(queryCond)
             .select('_id title codeType budget deadline status details')
-            .sort('-status time')
+            .sort(sort)
             .skip(page * pageSize)
             .limit(pageSize);
+    }
 
-        return data;
+    getListTotal(queryCond = {}) {
+        const OrderForm = this.ctx.model.OrderForm;
+        return OrderForm.count(queryCond);
     }
 
     /**

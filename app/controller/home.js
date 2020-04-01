@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const Resule = require('../result');
 
 class OrderFormController extends Controller {
     async index() {
@@ -15,6 +16,15 @@ class OrderFormController extends Controller {
             deadline: new Date('2020/05/20'),
             publisher: 'wyf',
         });
+    }
+
+    list() {
+        const {ctx} = this;
+        let {page, pageSize} = ctx.query;
+        page = Number(page);
+        pageSize = Number(pageSize);
+        console.log(pageSize, page);
+        ctx.body = new Resule(ctx);
     }
 }
 
