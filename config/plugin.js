@@ -7,7 +7,11 @@ module.exports = {
     //   enable: true,
     // },
     mongoose: {
-        enable: false,
+        enable: true,
         package: 'egg-mongoose',
+    },
+    cors: {
+        enable: true,
+        package: 'egg-cors',
     },
 };

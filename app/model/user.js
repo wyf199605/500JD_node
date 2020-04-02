@@ -13,6 +13,8 @@ module.exports = app => {
         city: {type: String}, // 城市
         country: {type: String}, // 国家
         avatar: {type: String}, // 头像地址
+        privilege: {type: Array},
+        unionid: {type: String},
     });
 
     return mongoose.model('User', UserSchema);

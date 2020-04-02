@@ -115,17 +115,27 @@ class WechatService extends Service {
 
     /**
      * 获取用户信息
-     * @param {string} accessToken 网页授权的AccessToken
      * @param {string} openid 用户的openid
+     * @return {Promise<null | {
+     *     openid: string,
+     *     nickname: string,
+     *     sex: string,
+     *     province: string,
+     *     city: string,
+     *     country: string,
+     *     headimgurl: string,
+     *     privilege: Array,
+     *     unionid: string,
+     * }>}
      */
-    async fetchUserInfo(accessToken, openid) {
+    async fetchUserInfo(openid) {
         const {ctx, app} = this;
         const {wechatApi} = app.config;
 
         const res = await ctx.curl(wechatApi.userInfoUrl, {
             dataType: 'json',
             data: {
-                access_token: accessToken,
+                access_token: authAccessToken,
                 openid,
                 lang: 'zh_CN',
             },

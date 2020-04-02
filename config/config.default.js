@@ -10,13 +10,18 @@ module.exports = appInfo => {
      * built-in config
      * @type {Egg.EggAppConfig}
      **/
-    const config = exports = {};
+    const config = {};
 
     // use for cookie sign key, should change to your own and keep security
     config.keys = appInfo.name + '_1585204952055_7878';
 
-    // add your middleware config here
-    config.middleware = [];
+    // 中间件
+    config.middleware = ['validate'];
+
+    config.validate = {
+        enable: false,
+        match: ['/order'],
+    };
 
     // 微信公众号配置
     config.wechatConfig = {
@@ -51,6 +56,19 @@ module.exports = appInfo => {
             options: {},
         },
     };
+
+    config.security = {
+        csrf: {
+            enable: false,
+        },
+    };
+
+    if (appInfo.env === 'local') {
+        config.cors = {
+            origin: '*', // 表示允许的源
+            allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH', // 表示允许的http请求方式
+        };
+    }
 
     // add your user config here
     const userConfig = {

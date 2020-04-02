@@ -10,11 +10,41 @@ class WechatController extends Controller {
     async index() {
         const {ctx, service, app} = this,
             cookies = this.ctx.cookies,
-            openid = cookies.get('openid', {encrypt: true});
+            openid = cookies.get('openid', {signed: true, encrypt: true});
         if (openid) {
             const checked = await service.wechat.checkAuthAccessToken(openid);
             if (checked) {
-                cookies.set('openid', openid, {encrypt: true});
+                let register = false;
+                try {
+                    const {openid: userid} = await service.user.findUser(openid);
+                    register = userid === openid;
+                } catch (e) {
+                    console.log(e);
+                    register = false;
+                }
+
+                if (!register) {
+                    try {
+                        const data = await service.wechat.fetchUserInfo(openid);
+                        await service.user.addUser({
+                            openid,
+                            username: data.nickname,
+                            province: data.province,
+                            sex: Number(data.sex),
+                            city: data.city,
+                            country: data.country,
+                            unionid: data.unionid,
+                            privilege: data.privilege,
+                            avatar: data.headimgurl,
+                        });
+                    } catch (e) {
+                        console.log(e);
+                        ctx.body = '用户注册失败';
+                        return;
+                    }
+                }
+
+                cookies.set('openid', openid, {signed: true, encrypt: true});
                 ctx.redirect('/public/index.html');
                 return;
             }
@@ -62,8 +92,7 @@ class WechatController extends Controller {
         const {code} = ctx.query;
         const accessTokenData = await service.wechat.fetchAuthAccessToken(code);
         if (accessTokenData) {
-            // const res = await service.wechat.fetchUserInfo(accessTokenData.access_token, accessTokenData.openid);
-            ctx.cookies.set('openid', accessTokenData.openid, {encrypt: true});
+            ctx.cookies.set('openid', accessTokenData.openid, {encrypt: true, signed: true});
             ctx.redirect('/');
         }
     }

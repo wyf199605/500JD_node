@@ -1,7 +1,7 @@
 {
   "extends": "eslint-config-egg",
   "rules": {
-    "indent": ["error", 4],
+    "indent": ["error", 4, {"SwitchCase":  1}],
     "object-curly-spacing": ["warn", "never"],
     "array-bracket-spacing": ["warn", "never"],
     "no-trailing-spaces": ["warn", {
