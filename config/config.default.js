@@ -52,8 +52,12 @@ module.exports = appInfo => {
     // mongodb配置
     config.mongoose = {
         client: {
-            url: 'mongodb://wyf1:XHjukdsmx1996@localhost/xz',
-            options: {},
+            url: 'mongodb://localhost/xz',
+            options: {
+                auth: {authSource: 'admin'},
+                user: 'admin',
+                pass: 'XHjukdsmx1996',
+            },
         },
     };
 
@@ -65,7 +69,10 @@ module.exports = appInfo => {
 
     if (appInfo.env === 'local') {
         config.cors = {
-            origin: '*', // 表示允许的源
+            origin(ctx) {
+                return ctx.request.headers.origin;
+            }, // 表示允许的源
+            credentials: true,
             allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH', // 表示允许的http请求方式
         };
     }
