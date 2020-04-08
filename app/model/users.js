@@ -17,5 +17,5 @@ module.exports = app => {
         unionid: {type: String},
     });
 
-    return mongoose.model('User', UserSchema);
+    return mongoose.model('Users', UserSchema);
 };
