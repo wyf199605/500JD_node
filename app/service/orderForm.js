@@ -14,7 +14,7 @@ class OrderFormService extends Service {
     async getOrderList(page, pageSize, queryCond = {}, sort = '-status time') {
         const OrderForm = this.ctx.model.OrderForm;
         return OrderForm.find(queryCond)
-            .select('_id title codeType budget deadline status details')
+            .select('_id title codeType budget deadline status details createTime')
             .sort(sort)
             .skip(page * pageSize)
             .limit(pageSize);
@@ -27,7 +27,7 @@ class OrderFormService extends Service {
      */
     getOrderListTotal(queryCond = {}) {
         const OrderForm = this.ctx.model.OrderForm;
-        return OrderForm.count(queryCond);
+        return OrderForm.countDocuments(queryCond);
     }
 
     /**
@@ -47,7 +47,8 @@ class OrderFormService extends Service {
      * @returns {Query<any> | void | (Query<any> & QueryHelpers) | Promise<UpdateWriteOpResult> | OrderedBulkOperation | UnorderedBulkOperation}
      */
     updateOrder(id, data) {
-        return this.selectOrder(id).update(data);
+        const OrderForm = this.ctx.model.OrderForm;
+        return OrderForm.updateOne({...data, _id: id});
     }
 
     /**
@@ -66,10 +67,15 @@ class OrderFormService extends Service {
      */
     insertOrder(data) {
         const OrderForm = this.ctx.model.OrderForm;
+        console.log({
+            ...data,
+            status: 0,
+        });
         const order = new OrderForm({
             ...data,
             status: 0,
         });
+        console.log('success');
         return order.save();
     }
 

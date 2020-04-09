@@ -5,7 +5,7 @@ module.exports = app => {
         Schema = mongoose.Schema;
 
     const UserSchema = new Schema({
-        openid: {type: String, required: true, unique: true, index: true},
+        openid: {type: String, required: true, unique: true},
         username: {type: String, required: true}, // 用户昵称
         sex: {type: Number, default: 0}, // 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
         tel: {type: String}, // 手机号码

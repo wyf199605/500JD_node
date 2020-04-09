@@ -57,8 +57,8 @@ module.exports = appInfo => {
                 auth: {authSource: 'admin'},
                 user: 'admin',
                 pass: 'XHjukdsmx1996',
-                // useNewUrlParser: true,
                 // useUnifiedTopology: true,
+                // useNewUrlParser: true,
             },
         },
     };
