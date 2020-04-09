@@ -10,7 +10,7 @@ class WechatController extends Controller {
     async index() {
         const {ctx, service, app} = this,
             cookies = this.ctx.cookies,
-            openid = cookies.get('openid', {signed: true, encrypt: true});
+            openid = cookies.get('openid', {signed: false, encrypt: false});
         if (openid) {
             const checked = await service.wechat.checkAuthAccessToken(openid);
             if (checked) {
@@ -19,7 +19,7 @@ class WechatController extends Controller {
                     const {openid: userid} = await service.user.findUser(openid);
                     register = userid === openid;
                 } catch (e) {
-                    console.log(e);
+                    ctx.logger.error(e);
                     register = false;
                 }
 
@@ -38,7 +38,7 @@ class WechatController extends Controller {
                             avatar: data.headimgurl,
                         });
                     } catch (e) {
-                        console.log(e);
+                        ctx.logger.error(e);
                         ctx.body = '用户注册失败';
                         return;
                     }

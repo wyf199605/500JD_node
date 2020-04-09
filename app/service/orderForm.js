@@ -67,15 +67,10 @@ class OrderFormService extends Service {
      */
     insertOrder(data) {
         const OrderForm = this.ctx.model.OrderForm;
-        console.log({
-            ...data,
-            status: 0,
-        });
         const order = new OrderForm({
             ...data,
             status: 0,
         });
-        console.log('success');
         return order.save();
     }
 

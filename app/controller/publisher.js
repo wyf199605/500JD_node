@@ -6,10 +6,9 @@ const moment = require('moment');
 class PublisherController extends Controller {
     async list() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const result = new app.Result();
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         let {page, pageSize} = ctx.query;
         page = Number(page);
@@ -45,11 +44,10 @@ class PublisherController extends Controller {
      */
     async updateOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const result = new app.Result();
         const orderForm = service.orderForm;
         const {orderId, ...updateData} = ctx.request.body;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         if (!orderId) {
             // 参数无效
@@ -113,10 +111,9 @@ class PublisherController extends Controller {
      */
     async cancelOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const {orderId} = ctx.query;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         const result = await orderForm.setOrderStatus(orderId, 3, openid);
 

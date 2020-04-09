@@ -73,11 +73,10 @@ class OrderFormController extends Controller {
      */
     async addOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const result = new app.Result();
         const orderForm = service.orderForm;
         const requestData = ctx.request.body;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         try {
             const res = await orderForm.insertOrder({

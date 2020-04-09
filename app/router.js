@@ -6,7 +6,6 @@
 module.exports = app => {
     const {router, controller} = app;
     const {wechat, home, developer, publisher} = controller;
-    console.log('当前运行环境：', app.config.env);
 
     // 首页
     router.get('/', wechat.index);

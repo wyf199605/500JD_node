@@ -2,6 +2,8 @@
 
 'use strict';
 
+const path = require('path');
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -18,8 +20,12 @@ module.exports = appInfo => {
     // 中间件
     config.middleware = ['validate'];
 
+    config.static = {
+        dir: path.join(appInfo.baseDir, 'public'),
+    };
+
     config.validate = {
-        enable: false,
+        enable: true,
         match: ['/order'],
     };
 
@@ -72,8 +78,9 @@ module.exports = appInfo => {
     // if (appInfo.env === 'local') {
     config.cors = {
         origin(ctx) {
+            // 表示允许的源
             return ctx.request.headers.origin;
-        }, // 表示允许的源
+        },
         credentials: true,
         allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH', // 表示允许的http请求方式
     };

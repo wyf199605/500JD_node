@@ -5,10 +5,9 @@ const Controller = require('egg').Controller;
 class DeveloperController extends Controller {
     async list() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const result = new app.Result();
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         let {page, pageSize} = ctx.query;
         page = Number(page);
@@ -43,10 +42,9 @@ class DeveloperController extends Controller {
      */
     async tackOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const {orderId} = ctx.query;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         const result = await orderForm.setOrderStatus(orderId, 1, openid);
 
@@ -59,10 +57,9 @@ class DeveloperController extends Controller {
      */
     async cancelOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const {orderId} = ctx.query;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         const result = await orderForm.setOrderStatus(orderId, 0, openid);
 
@@ -75,10 +72,9 @@ class DeveloperController extends Controller {
      */
     async finishOrder() {
         const {ctx, service, app} = this;
-        const isProd = app.config.env === 'prod';
         const orderForm = service.orderForm;
         const {orderId} = ctx.query;
-        const openid = ctx.cookies.get('openid', {signed: isProd, encrypt: isProd});
+        const openid = app.openid;
 
         const result = await orderForm.setOrderStatus(orderId, 2, openid);
 

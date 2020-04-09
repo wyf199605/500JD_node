@@ -2,11 +2,6 @@
 
 const result = require('./app/result');
 const mongoose = require('mongoose');
-const moment = require('moment');
-
-process.env.TZ = 'Asia/Shanghai';
-
-console.log(moment().format('YYYY-MM-DD HH:mm'));
 
 class AppBootHook {
     constructor(app) {
